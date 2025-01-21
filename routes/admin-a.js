@@ -18,7 +18,7 @@ router.post("/admin/login", async (req, res) => {
     if (!username || !password) {
         return res.status(400).send("Username and password are required");
     }
-    if (username == 'youssef' && password == 123) {
+    if (username == 'EE' && password == 123) {
         req.session.username = username;
         req.session.password = password
         res.redirect("/admin/dashboard/customer-accounts")
