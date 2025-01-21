@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="container mx-auto p-6 ml-[113px]">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Payment Details</h1>
+    
+    <!-- Navigation Buttons -->
+    <div class="flex space-x-4 mb-6">
+        <button onclick="showForm('remaining-form')" 
+                class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition">
+            View Remaining Amount
+        </button>
+        <button onclick="showForm('extra-form')" 
+                class="px-4 py-2 bg-purple-500 text-white rounded-md shadow hover:bg-purple-600 transition">
+            View Extra Amount
+        </button>
+        <a href="/payment/top-payments" 
+           class="px-4 py-2 bg-indigo-500 text-white rounded-md shadow hover:bg-indigo-600 transition">
+            View Top Payments
+        </a>
+    </div>
+
+    <!-- Remaining Amount Form -->
+    <form id="remaining-form" action="/payment/remaining" method="POST" class="hidden bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">View Remaining Amount</h2>
+        <div class="mb-4">
+            <label for="planNameRemaining" class="block text-gray-600 font-medium mb-2">Plan Name</label>
+            <input type="text" id="planNameRemaining" name="planName" required 
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button type="submit" 
+                class="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition">
+            Submit
+        </button>
+    </form>
+
+    <!-- Extra Amount Form -->
+    <form id="extra-form" action="/payment/extra" method="POST" class="hidden bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">View Extra Amount</h2>
+        <div class="mb-4">
+            <label for="planNameExtra" class="block text-gray-600 font-medium mb-2">Plan Name</label>
+            <input type="text" id="planNameExtra" name="planName" required 
+                   class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+        </div>
+        <button type="submit" 
+                class="px-4 py-2 bg-purple-500 text-white rounded-md shadow hover:bg-purple-600 transition">
+            Submit
+        </button>
+    </form>
+    <% if (action === 'remaining') { %>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Remaining Amount</h2>
+            <p class="text-xl text-gray-700">Amount: <span class="font-bold text-blue-600">$<%= remainingAmount %></span></p>
+        </div>
+    
+    <% } else if (action === 'extra') { %>
+        <form action="/"></form>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Extra Amount</h2>
+            <p class="text-xl text-gray-700">Amount: <span class="font-bold text-purple-600">$<%= extraAmount %></span></p>
+        </div>
+    <% } else if (action === 'top-payments') { %>
+        <div class="bg-white shadow-lg rounded-lg p-6 overflow-x-auto">
+            <h2 class="text-2xl font-semibold mb-4">Top 10 Payments</h2>
+            <table class="min-w-full table-auto text-left">
+                <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+                    <tr>
+                        <th class="px-4 py-2">#</th>
+                        <th class="px-4 py-2">Payment ID</th>
+                        <th class="px-4 py-2">Amount</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Payment Method</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Mobile Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% topPayments.forEach((payment, index) => { %>
+                        <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition">
+                            <td class="border-t px-4 py-2"><%= index + 1 %></td>
+                            <td class="border-t px-4 py-2 font-semibold text-blue-500"><%= payment.paymentID %></td>
+                            <td class="border-t px-4 py-2 font-bold text-indigo-500">$<%= payment.amount %></td>
+                            <td class="border-t px-4 py-2"><%= new Date(payment.date_of_payment).toLocaleDateString('en-GB') %></td>
+                            <td class="border-t px-4 py-2 font-bold text-indigo-500"><%= payment.payment_method %></td>
+                            <td class="border-t px-4 py-2 font-bold text-indigo-500"><%= payment.status %></td>
+                            <td class="border-t px-4 py-2 font-bold text-indigo-500"><%= payment.mobileNo %></td>
+                            
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <p class="text-gray-600">Select an action to view payment details.</p>
+        </div>
+    <% } %>
+    </div>
+    
+</div>
+
+<script>
+    function showForm(formId) {
+        // Hide all forms
+        document.getElementById('remaining-form').classList.add('hidden');
+        document.getElementById('extra-form').classList.add('hidden');
+        
+        // Show the selected form
+        document.getElementById(formId).classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>

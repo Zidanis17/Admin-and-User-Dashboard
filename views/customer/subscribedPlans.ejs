@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscribed Plans</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+    }
+
+    .dropdown-content.open {
+      max-height: 400px;
+      overflow: visible;
+      padding-left: 2rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .dropdown-content p {
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      line-height: 1.6;
+    }
+
+    .dropdown-content strong {
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 font-sans">
+  <%- include('partials/header') %>
+
+  <div class="flex">
+    <%- include('partials/sidebar') %>
+    <div class="ml-[113px] flex-1 p-8">
+      <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">Subscribed Plans (Last 5 Months)</h1>
+
+      <% if (locals.plans && plans.length > 0) { %>
+        <div class="space-y-6" id="accordion">
+          <% plans.forEach((plan, index) => { %>
+            <div class="bg-white border border-gray-300 shadow-lg rounded-xl overflow-hidden">
+              <button 
+                class="w-full text-left px-8 py-6 bg-indigo-600 text-white font-semibold text-lg rounded-t-xl hover:bg-indigo-700 flex items-center justify-between"
+                onclick="toggleDropdown('<%= `dropdown-` + index %>')">
+                <span><%= plan.name %></span>
+                <i class="pi pi-chevron-down"></i>
+              </button>
+              <div id="<%= 'dropdown-' + index %>" class="dropdown-content <%= index === 0 ? 'open' : '' %> bg-gray-50">
+                <p><strong>Price:</strong> $<%= plan.price %></p>
+                <p><strong>SMS Offered:</strong> <%= plan.SMS_offered %></p>
+                <p><strong>Minutes Offered:</strong> <%= plan.minutes_offered %></p>
+                <p><strong>Data Offered:</strong> <%= plan.data_offered %> MB</p>
+                <p><strong>Description:</strong> <%= plan.description || "No description available" %></p>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p class="text-center text-gray-600">No subscribed plans found in the past 5 months.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <script>
+    const toggleDropdown = (id) => {
+      const accordion = document.getElementById("accordion");
+      const dropdowns = accordion.querySelectorAll(".dropdown-content");
+
+      dropdowns.forEach((dropdown) => {
+        if (dropdown.id === id) {
+          dropdown.classList.toggle("open");
+        } else {
+          dropdown.classList.remove("open");
+        }
+      });
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const firstDropdown = document.querySelector("#dropdown-0");
+      if (firstDropdown) {
+        firstDropdown.classList.add("open");
+      }
+    });
+  </script>
+</body>
+</html>

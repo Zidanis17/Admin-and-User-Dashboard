@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Details</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Navbar -->
+  <%- include('partials/header') %>
+
+  <!-- Page Wrapper -->
+  <div class="flex">
+    <!-- Sidebar -->
+    <%- include('partials/sidebar') %>
+
+    <!-- Main Content -->
+    <div class="ml-[113px] flex-1 flex items-center justify-center p-8">
+        <div class="bg-white rounded-xl shadow-lg p-12 lg:p-20 w-full max-w-4xl text-center">
+          <h1 class="text-5xl font-bold text-green-600 mb-6">Voucher Redeemed Successfully!</h1>
+          <p class="text-xl text-gray-700 mb-12">Your voucher has been applied successfully. Enjoy your benefits!</p>
+          <a
+            href="/shops"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 mt-12"
+          >
+            Go Back
+          </a>
+        </div>
+      </div>
+  </div>
+
+</body>
+</html>

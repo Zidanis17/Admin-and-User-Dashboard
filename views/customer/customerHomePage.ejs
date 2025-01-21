@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Home</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body >
+
+   
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+
+  
+<div class="flex bg-gray-50 min-h-screen">
+  <div class="flex-1 flex flex-col">
+    <img class="mx-auto mt-20 h-40 w-auto" src="/logo_invis.png" alt="">
+    <div class="flex items-center justify-center p-8">
+      <h1 id="welcomeMessage" 
+          class="text-6xl sm:text-7xl font-extrabold text-indigo-700 text-center leading-snug">
+      </h1>
+    </div>
+  </div>
+</div>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const welcomeMessage = document.getElementById('welcomeMessage');
+      const username = "<%= fullName %>"; 
+      const fullMessage = `Welcome , ${username}!`;
+      let index = 0;
+
+      function typeWriter() {
+        if (index < fullMessage.length) {
+          welcomeMessage.textContent += fullMessage.charAt(index);
+          index++;
+          setTimeout(typeWriter, 75); 
+        }
+      }
+
+      typeWriter();
+    });
+  </script>
+  
+</body>
+</html>

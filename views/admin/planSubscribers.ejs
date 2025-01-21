@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Subscribers</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+
+  <div class="container mx-auto p-6 ml-[113px]">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Plan Subscribers</h1>
+
+    <form action="/admin/dashboard/plan-subscribers" method="post" class="bg-white shadow-lg rounded-lg p-6 mb-6 flex items-center gap-4">
+      <div class="flex-1">
+        <label for="id" class="block text-sm font-medium text-gray-700">Plan ID</label>
+        <input type="number" id="id" name="id" required min="0" class="mt-1 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Enter Plan ID">
+      </div>
+      <div class="flex-1">
+        <label for="date" class="block text-sm font-medium text-gray-700">Subscription Date</label>
+        <input type="date" id="date" name="date" class="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div>
+        <button type="submit" class="mt-6 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Apply Filter
+        </button>
+      </div>
+    </form>
+
+    <form action="/admin/dashboard/delete-all-benefits" method="POST" class="bg-white shadow-lg rounded-lg p-6 mb-6 flex items-center gap-4">
+      <div class="flex-1">
+        <label for="id_with_mobile" class="block text-sm font-medium text-gray-700">Plan ID</label>
+        <input type="number" id="id_with_mobile" name="plan_id" required min="0" class="mt-1 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Enter Plan ID">
+      </div>
+
+      <div class="flex-1">
+        <label for="mobile_no_with_mobile" class="block text-sm font-medium text-gray-700">Mobile Number</label>
+        <input type="text" id="mobile_no_with_mobile" name="mobile_no" required class="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Enter Mobile Number">
+      </div>
+      <div>
+        <button type="submit" class="mt-6 px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Delete account benefits
+        </button>
+      </div>
+    </form>
+
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+      <table class="min-w-full text-left table-auto">
+        <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+          <tr>
+            <th class="px-4 py-4">#</th>
+            <th class="px-4 py-4">Mobile Number</th>
+            <th class="px-4 py-4">Password</th>
+            <th class="px-4 py-4">Balance</th>
+            <th class="px-4 py-4">Account Type</th>
+            <th class="px-4 py-4">Start Date</th>
+            <th class="px-4 py-4">Status</th>
+            <th class="px-4 py-4">Points</th>
+            <th class="px-4 py-4">National ID</th>
+            <th class="px-4 py-4">Plan ID</th>
+            <th class="px-4 py-4">Plan Name</th>
+            <th class="px-4 py-4">Plan Price</th>
+            <th class="px-4 py-4">SMS Offered</th>
+            <th class="px-4 py-4">Minutes Offered</th>
+            <th class="px-4 py-4">Data Offered (GB)</th>
+            <th class="px-4 py-4">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% planSubscribers.forEach((subscriber, index) => { %>
+          <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition-all duration-400 ease-in-out">
+            <td class="border-t px-4 py-4 text-sm"><%= index + 1 %></td>
+            <td class="border-t px-4 py-4 text-sm text-blue-600 font-semibold"><%= subscriber.mobileNo %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.pass %></td>
+            <td class="border-t px-4 py-4 text-sm text-green-600 font-semibold">$<%= subscriber.balance.toFixed(2) %></td>
+            <td class="border-t px-4 py-4 text-sm">
+              <span class="inline-block bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-md">
+                <%= subscriber.account_type.toUpperCase() %>
+              </span>
+            </td>
+            <td class="border-t px-4 py-4 text-sm"><%= new Date(subscriber.start_date).toLocaleDateString('en-GB') %></td>
+            <td class="border-t px-4 py-4 text-sm font-semibold">
+              <span class="inline-block  <%= subscriber.status === 'active' ? 'bg-green-100' : 'bg-red-100' %> text-sm font-semibold px-3 py-1 rounded-md">
+                <%= subscriber.status.toUpperCase() %>
+              </span>
+            </td>
+            <td class="border-t px-4 py-4 text-sm text-blue-600 font-semibold"><%= subscriber.points %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.nationalID %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.planID %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.name %></td>
+            <td class="border-t px-4 py-4 text-sm text-blue-600 font-semibold">$<%= subscriber.price.toFixed(2) %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.SMS_offered %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.minutes_offered %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.data_offered %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= subscriber.description %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>

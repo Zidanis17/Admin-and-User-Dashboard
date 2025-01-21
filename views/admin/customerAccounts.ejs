@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Profiles</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+
+  <div class="container mx-auto p-6 ml-[113px]">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Customer Profiles</h1>
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+      <table class="min-w-full text-left table-auto">
+        <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+          <tr>
+            <th class="px-4 py-4">#</th>
+            <th class="px-4 py-4 "> Name</th>
+            <!--        <th class="px-4 py-4">Last Name</th>-->
+            <th class="px-4 py-4">National ID</th>
+            <th class="px-4 py-4">Email</th>
+            <th class="px-4 py-4">Address</th>
+            <th class="px-4 py-4">DOB</th>
+            <th class="px-4 py-4">Mobile No</th>
+            <th class="px-4 py-4">Account Type</th>
+            <th class="px-4 py-4">Status</th>
+            <th class="px-4 py-4">Start Date</th>
+            <th class="px-4 py-4">Balance</th>
+            <th class="px-4 py-4">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% customers.forEach((customer, index) => { %>
+          <% if (customer.status === "active") { %>
+          <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition-all duration-400 ease-in-out ">
+            <td class="border-t px-4 py-4 text-sm"><%= index + 1 %></td>
+            <td class="border-t px-4 py-4 text-sm text-start"><%= customer.first_name + " " + customer.last_name %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= customer.nationalID %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= customer.email %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= customer.address %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= new Date(customer.date_of_birth).toLocaleDateString('en-GB') %></td>
+            <td class="border-t px-4 py-4 text-sm"><%= customer.mobileNo %></td>
+            <td class="border-t px-4 py-4 text-sm">
+              <span class="inline-block bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-md">
+                <%= customer.account_type.toUpperCase() %>
+              </span>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <span class="inline-block bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-md">
+                <%= customer.status.toUpperCase() %>
+              </span>
+            </td>
+            <td class="border-t px-4 py-4 text-sm"><%= new Date(customer.start_date).toLocaleDateString('en-GB') %></td>
+            <td class="border-t px-4 py-4 text-sm text-blue-600 font-semibold ">$<%= customer.balance.toFixed(2) %></td>
+            <td class="border-t px-4 py-4 text-sm text-green-600 font-semibold"><%= customer.points %></td>
+          </tr>
+          <% } %>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>

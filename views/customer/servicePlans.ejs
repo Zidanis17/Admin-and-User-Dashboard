@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <%- include('partials/header') %>
+    <%- include('partials/sidebar') %>
+
+    <div class="flex flex-wrap justify-center mt-6">
+        <h1 class="text-3xl font-semibold text-gray-800 mb-6">All Offered Service Plans</h1>
+    </div>   
+
+    <div class="container flex flex-wrap justify-center transition-all duration-700 mx-auto "> 
+
+        <div class="flex flex-wrap justify-center">
+        <% if (locals.servicePlans && servicePlans.length != 0) { %>
+        <% servicePlans.forEach(service => { %>
+            <div class="bg-white border border-gray-300 rounded-lg shadow-lg m-4 w-80 p-6 cursor-pointer hover:scale-105 transition duration-500 ease-in-out ">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold">
+                    <%= service.name %>
+                    </h3>
+                    <p class="text-gray-600">
+                        <%= service.description %>
+                    </p>
+                </div>
+                <p class="text-gray-700">
+                <span class="font-semibold">Plan ID: <span class="text-indigo-500"><%= service.planID %></span></span> 
+                </p>
+                <p class="text-gray-700">
+                <span class="font-semibold">Price:</span"> <span class="text-green-600">$<%= service.price %></span>
+                </p>
+                <p class="text-gray-700">
+                <span class="font-semibold">SMS Offered:</span><%= service.SMS_offered %>
+                </p>
+                <p class="text-gray-700">
+                <span class="font-semibold">Minutes Offered:</span><%= service.minutes_offered%>
+                </p>
+                <p class="text-gray-700">
+                <span class="font-semibold">Data Offered:</span><%= service.data_offered %>
+                </p>
+            </div>
+            <% }) %>
+            <% } else { %>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <p class="text-gray-600 text-center">There are no offered service plans found.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+        <div class="flex flex-wrap justify-center mt-6 ">
+            <h1 class="text-3xl font-semibold text-gray-800">Filtered Service Plans</h1>
+        </div>
+    <div class="container flex flex-wrap justify-center transition-all duration-700 mx-auto "> 
+        <div class="container flex flex-wrap justify-center mt-6 transition-all duration-700 mx-auto"> 
+            <div class="container ml-[80px] mb-6">
+                <!-- Search Form -->
+                <form action="servicePlans" method="post" class="bg-white shadow-lg rounded-lg p-6 mb-6 flex items-center gap-4">
+                    <div class="flex-1">
+                        <label for="id" class="block text-sm font-medium text-gray-700">Plan Name</label>
+                        <input
+                                type="text"
+                                id="id"
+                                name="planName"
+                                required
+                                class="mt-1 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Enter plan name"
+                        >
+                    </div>
+        
+                    <div class="flex-1">
+                        <label for="date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                        <input
+                                type="date"
+                                id="date"
+                                name="startDate"
+                                class="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                    </div>
+        
+                    <div class="flex-1">
+                        <label for="date" class="block text-sm font-medium text-gray-700">End Date</label>
+                        <input
+                                type="date"
+                                id="date"
+                                name="endDate"
+                                class="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                    </div>
+        
+                    <div>
+                        <button
+                                type="submit"
+                                class="mt-6 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            Filter
+                        </button>
+                    </div>
+                </form>
+    
+                <!-- Item Details -->
+                
+                <% if (locals.servicePlansFilter && servicePlansFilter.length != 0) { %>
+                    <% servicePlansFilter.forEach(filteredPlans => { %>
+                    <div class="bg-white shadow-lg rounded-lg p-6 mb-2">
+                        <div class="text-gray-800">
+                            <h2 class="text-2xl font-semibold mb-4"><%= planName %></h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700">SMS Sent</p>
+                                    <p class="text-lg font-semibold text-teal-500"><%= filteredPlans.SMS_sent %></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700">Minutes Used</p>
+                                    <p class="text-lg font-semibold text-gray-500"><%= filteredPlans.minutes_used %></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700">Data Consumption</p>
+                                    <p class="text-lg font-semibold text-cyan-500"><%= filteredPlans.data_consumption %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                    <% }); %>
+                <% } else { %>
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <p class="text-gray-600 text-center">No data found. Please search using a valid plan name and date.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <script src="/scripts/sidebarHover.js" defer></script>
+</body>
+
+</html>

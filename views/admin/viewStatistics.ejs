@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+  <div class="ml-32 container p-6 transition-all duration-700">
+    <div class="grid grid-cols-2 gap-7 px-5 justify-center rounded-xl bg-indigo-200">
+      <div class="mx-auto bg-white border border-gray-300 rounded-lg shadow-lg m-4 w-full p-6 cursor-pointer transition duration-500 ease-in-out ">
+        <span class="flex justify-center text-indigo-950 text-xl font-bold">Inputs</span>
+
+        <span class="text-indigo-800 text-sm font-bold">Number of cashback transactions:</span>
+        <select id="wallet3" required class="mt-1 mb-5 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="" disabled selected>Select a wallet</option>
+          <% wallets.forEach(wallet=> { %>
+          <option value="<%= wallet.walletID %>">
+            <%= wallet.first_name %>
+            <%= wallet.last_name %> - <%= wallet.mobileNo %>
+          </option>
+          <% })%>
+        </select>
+
+        <span class="text-indigo-800 text-sm font-bold">Number of accepted payment transactions during
+          the last year along with the total amount of earned points:
+        </span>
+        <select id="account" required class="mt-1 mb-5 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="" disabled selected>Select an account</option>
+          <% accounts.forEach(acc=> { %>
+          <option value="<%= acc.mobileNo %>">
+            <%= acc.mobileNo %>
+          </option>
+          <% })%>
+        </select>
+
+        <span class="text-indigo-800 text-sm font-bold">Amount of cashback returned:</span>
+        <select id="wallet1" required class="mt-1 mb-5 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="" disabled selected>Select a wallet</option>
+          <% wallets.forEach(wallet=> { %>
+          <option value="<%= wallet.walletID %>">
+            <%= wallet.first_name %>
+            <%= wallet.last_name %> - <%= wallet.mobileNo %>
+          </option>
+          <% })%>
+        </select>
+        <select id="plan" required class="mt-1 mb-5 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="" disabled selected>Select a plan</option>
+          <% plans.forEach(plan=> { %>
+          <option value="<%= plan.planID%>">
+            <%= plan.name%> - <%= plan.description%>
+          </option>
+          <% })%>
+        </select>
+
+        <span class="text-indigo-800 text-sm font-bold">Average of the sent transaction amounts:</span>
+        <select id="wallet2" required class="mt-1 mb-5 block w-full rounded-md p-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="" disabled selected>Select a wallet</option>
+          <% wallets.forEach(wallet=> { %>
+          <option value="<%= wallet.walletID %>">
+            <%= wallet.first_name %>
+            <%= wallet.last_name %> - <%= wallet.mobileNo %>
+          </option>
+          <% })%>
+        </select>
+        <div class="flex">
+          <div class="flex-1">
+            <label for="startdate" class="block text-sm font-medium text-gray-700">Start
+              Date</label>
+            <input type="date" id="startdate" name="date" class="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          </div>
+          <div class="flex-1">
+            <label for="enddate" class="block text-sm font-medium text-gray-700">End date</label>
+            <input type="date" id="enddate" name="date" class="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 m-auto grid grid-cols-6 gap-4">
+        <div class="col-span-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg shadow-lg p-6 text-center transform hover:scale-110 transition duration-500">
+          <span class="block text-sm font-medium uppercase tracking-wide">Number of Cashback
+            Transactions</span>
+          <div class="mt-4">
+            <span id="numberOfCashback" class="text-5xl font-extrabold">-</span>
+          </div>
+        </div>
+
+        <div class="col-span-2 bg-gradient-to-r from-pink-500 via-pink-600 to-pink-500 text-white rounded-lg shadow-lg p-6 text-center transform hover:scale-110 transition duration-500">
+          <span class="block text-sm font-medium uppercase tracking-wide">Number of Accepted
+            Payments</span>
+          <div class="mt-4">
+            <span id="numberOfAcceptedPayments" class="text-5xl font-extrabold">-</span>
+          </div>
+        </div>
+
+        <div class="col-span-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg shadow-lg p-6 text-center transform hover:scale-110 transition duration-500">
+          <span class="block text-sm font-medium uppercase tracking-wide">Number of Earned
+            Points</span>
+          <div class="mt-4">
+            <span id="numberOfEarnedPoints" class="text-5xl font-extrabold">-</span>
+          </div>
+        </div>
+
+        <div class="col-span-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg shadow-lg p-6 text-center transform hover:scale-110 transition duration-500">
+          <span class="block text-sm font-medium uppercase tracking-wide">Amount of Cashback
+            Returned</span>
+          <div class="mt-4">
+            <span id="amountOfCashbackReturned" class="text-5xl font-extrabold">-</span>
+          </div>
+        </div>
+
+        <div class="col-span-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg shadow-lg p-6 text-center transform hover:scale-110 transition duration-500">
+          <span class="block text-sm font-medium uppercase tracking-wide">Average of Sent Transaction
+            Amounts</span>
+          <div class="mt-4">
+            <span id="avgTransactions" class="text-5xl font-extrabold">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+
+<script>
+  const randomizer = (id, num) => {
+    document.getElementById(id).textContent = 0;
+    let i = 1;
+    const iid = setInterval(() => {
+      const oldValue = document.getElementById(id).textContent === '-' ? 0 : parseInt(document.getElementById(id).textContent);
+      if (oldValue >= num) {
+        clearInterval(iid);
+      } else {
+        document.getElementById(id).textContent = Math.min(oldValue + i, num);
+        i++;
+      }
+    }, 50);
+  }
+
+  const calculateNumberOfCashback = (event) => {
+    const walletId = event.target.value;
+    if (walletId) {
+      fetch('/admin/dashboard/view-statistics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          wallet3Id: walletId
+        })
+      }).then(response => response.json()).then(data => {
+        randomizer('numberOfCashback', data);
+      });
+    }
+  }
+  document.getElementById('wallet3').addEventListener('change', calculateNumberOfCashback);
+
+  const calculateAcceptedPayment = (event) => {
+    const mobileNo = event.target.value;
+    if (mobileNo) {
+      fetch('/admin/dashboard/view-statistics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mobileNo: mobileNo
+        })
+      }).then(response => response.json()).then(data => {
+        randomizer('numberOfAcceptedPayments', data[0]);
+        randomizer('numberOfEarnedPoints', data[1]);
+      });
+    }
+  }
+  document.getElementById('account').addEventListener('change', calculateAcceptedPayment);
+
+  const calculateCashbackAmountReturned = (event) => {
+    const walletId = document.getElementById('wallet1').value;
+    const planId = document.getElementById('plan').value;
+    if (walletId !== '' && planId != '') {
+      fetch('/admin/dashboard/view-statistics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          wallet1Id: walletId,
+          planId: planId
+        })
+      }).then(response => response.json()).then(data => {
+        randomizer('amountOfCashbackReturned', data);
+      });
+    }
+  }
+  document.getElementById('wallet1').addEventListener('change', calculateCashbackAmountReturned);
+  document.getElementById('plan').addEventListener('change', calculateCashbackAmountReturned);
+
+  const calculateAvgTransactions = (event) => {
+    const walletId = document.getElementById('wallet2').value;
+    const startDate = document.getElementById('startdate').value;
+    const endDate = document.getElementById('enddate').value;
+    if (walletId !== '' && startDate != '' && endDate != '') {
+      fetch('/admin/dashboard/view-statistics', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          wallet2Id: walletId,
+          startDate: startDate,
+          endDate: endDate
+        })
+      }).then(response => response.json()).then(data => {
+        randomizer('avgTransactions', data);
+      });
+    }
+  }
+  document.getElementById('wallet2').addEventListener('change', calculateAvgTransactions);
+  document.getElementById('startdate').addEventListener('change', calculateAvgTransactions);
+  document.getElementById('enddate').addEventListener('change', calculateAvgTransactions);
+</script>

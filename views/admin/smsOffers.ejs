@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Mobile</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+
+  <div class="container mx-auto p-6 ml-[113px] ">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Manage Mobile</h1>
+
+    <div class="bg-white p-3 shadow-lg rounded-lg mb-6 w-[350px] m-auto">
+      <form action="/admin/dashboard/manage-mobile" method="GET">
+        <div class="mb-4">
+          <label for="mobile_no" class="block text-gray-700">Mobile No:</label>
+          <input type="text" maxlength="11" pattern="\d{11}" name="mobile_no" id="mobile_no" value="<%= mobileNumber %>" class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg" required>
+        </div>
+        <div class="flex flex-col justify-center px-5">
+          <button type="submit" class="bg-indigo-500 text-white px-6 py-2 rounded-lg">View SMS offered & check link</button>
+          <button type="button" id="update" class="mt-4 bg-emerald-400 text-white px-6 py-2 rounded-lg">Update total points</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="flex justify-center bg-white shadow-lg rounded-lg p-4">
+      <i class="my-auto pi <%= linked ? 'pi-check-circle' : 'pi-times-circle' %> text-emerald-600"></i>
+      <span class="ml-2 font-bold text-lg"><%= linked ? 'Wallet linked!' : 'Wallet not linked' %></span>
+    </div>
+
+    <div id="updateMsg" class="flex justify-center bg-white shadow-lg rounded-lg p-4" style="display: none;">
+      <i class="my-auto pi pi-check-circle text-emerald-600"></i>
+      <span class="ml-2 font-bold text-lg">Updated total points!</span>
+    </div>
+
+    <% if (smsOffers && smsOffers.length > 0) { %>
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+      <table class="min-w-full text-left table-auto">
+        <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+          <tr>
+            <th class="px-4 py-4">Offer ID</th>
+            <th class="px-4 py-4">Benefit ID</th>
+            <th class="px-4 py-4">Internet Offered (MB)</th>
+            <th class="px-4 py-4">SMS Offered</th>
+            <th class="px-4 py-4">Minutes Offered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% smsOffers.forEach((offer, index) => { %>
+          <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition-all duration-400 ease-in-out">
+            <td class="border-t px-4 py-4 text-sm text-gray-800"><%= offer.offerID %></td>
+            <td class="border-t px-4 py-4 text-sm text-gray-800"><%= offer.benefitID %></td>
+            <td class="border-t px-4 py-4 text-sm text-gray-800"><%= offer.internet_offered %> MB</td>
+            <td class="border-t px-4 py-4 text-sm text-gray-800"><%= offer.SMS_offered %> SMS</td>
+            <td class="border-t px-4 py-4 text-sm text-gray-800"><%= offer.minutes_offered %> MINS</td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <% } else if(!(smsOffers === null)) { %>
+    <div class="text-center text-gray-500 mt-6">
+      <p>No SMS offers found. Please enter a valid mobile number to view available offers.</p>
+    </div>
+    <% } %>
+  </div>
+
+</body>
+
+</html>
+
+<script>
+  const update = document.getElementById('update');
+
+  update.addEventListener('click', () => {
+    const mobileNo = document.getElementById('mobile_no').value;
+    fetch('/admin/dashboard/manage-mobile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        mobileNo: mobileNo
+      })
+    }).then(response => response.json()).then(res => {
+      if (res == 200) {
+        document.getElementById('updateMsg').style.display = '';
+        setTimeout(() => {
+          document.getElementById('updateMsg').style.display = 'none';
+        }, 5000)
+      }
+    })
+  });
+</script>

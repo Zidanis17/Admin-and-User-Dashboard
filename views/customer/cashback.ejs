@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cashback Calculator</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 ">
+  <%- include('partials/header') %> <!-- Navbar -->
+  <div class="flex">
+    <%- include('partials/sidebar') %> <!-- Sidebar -->
+    <div class="flex-1 flex items-center justify-center p-8 relative z-10">
+      <div class="bg-white rounded-xl shadow-lg p-12 w-full max-w-3xl">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Cashback Calculator</h1>
+        <form id="cashbackForm" class="space-y-6">
+          <div>
+            <label for="mobile_num" class="block text-lg font-semibold text-gray-700 mb-2">Mobile Number</label>
+            <input
+              type="text"
+              id="mobile_num"
+              name="mobile_num"
+              maxlength="11"
+              pattern="\d{11}"
+              value="<%if(locals.mobileNo){%><%=mobileNo%><%}%>"
+              disabled
+              required
+              class="w-full border rounded-lg p-4 text-gray-800 focus:outline-none focus:ring focus:ring-indigo-300"
+              placeholder="Enter mobile number"
+            />
+          </div>
+
+          <div>
+            <label for="payment_id" class="block text-lg font-semibold text-gray-700 mb-2">Payment ID</label>
+            <input
+              type="number"
+              id="payment_id"
+              name="payment_id"
+              required
+              class="w-full border rounded-lg p-4 text-gray-800 focus:outline-none focus:ring focus:ring-indigo-300"
+              placeholder="Enter payment ID"
+            />
+          </div>
+
+          <div>
+            <label for="benefit_id" class="block text-lg font-semibold text-gray-700 mb-2">Benefit ID</label>
+            <input
+              type="number"
+              id="benefit_id"
+              name="benefit_id"
+              required
+              class="w-full border rounded-lg p-4 text-gray-800 focus:outline-none focus:ring focus:ring-indigo-300"
+              placeholder="Enter benefit ID"
+            />
+          </div>
+
+          <div class="text-center">
+            <button
+              type="submit"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300"
+            >
+              Calculate Cashback
+            </button>
+          </div>
+        </form>
+
+        <div id="cashbackResult" class="mt-8 hidden text-center">
+          <h2 class="text-xl font-bold text-gray-800">Cashback Amount</h2>
+          <p id="cashbackAmount" class="text-4xl font-extrabold text-indigo-600">0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+document.getElementById('cashbackForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const mobile_num = document.getElementById('mobile_num').value;
+  const payment_id = document.getElementById('payment_id').value;
+  const benefit_id = document.getElementById('benefit_id').value;
+
+  try {
+    const response = await fetch('/cashback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mobile_num, payment_id, benefit_id }),
+    });
+
+    if (response.ok) {
+      const contentType = response.headers.get('content-type');
+
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        if (data.success) {
+          const cashbackAmount = data.cashbackAmount;
+          const amountElement = document.getElementById('cashbackAmount');
+          const resultElement = document.getElementById('cashbackResult');
+          resultElement.classList.remove('hidden');
+
+          let count = 0;
+          const increment = cashbackAmount / 100;
+          const interval = setInterval(() => {
+            if (count < cashbackAmount) {
+              count += increment;
+              amountElement.textContent = count.toFixed(2);
+            } else {
+              amountElement.textContent = cashbackAmount.toFixed(2);
+              clearInterval(interval);
+            }
+          }, 10);
+        }else {
+          alert('Error: ' + data.message);
+        }
+      } else {
+        const errorHtml = await response.text();
+        document.body.innerHTML = errorHtml;
+      }
+    } else {
+      console.error('HTTP error:', response.status);
+      alert('An error occurred. Please try again.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('An error occurred while calculating cashback.');
+  }
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolved Tickets</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="container mx-auto p-6 ml-[113px] ">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Resolved Tickets</h1>
+
+    <div class="overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200 ">
+        <table class="min-w-full table-auto text-sm text-left text-gray-700">
+            <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+            <tr>
+                <th class="py-3 px-4 text-sm font-medium ">Ticket ID</th>
+                <th class="py-3 px-4 text-sm font-medium ">Mobile No.</th>
+                <th class="py-3 px-4 text-sm font-medium ">Issue Description</th>
+                <th class="py-3 px-4 text-sm font-medium ">Priority Level</th>
+                <th class="py-3 px-4 text-sm font-medium ">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% solvedTickets.forEach(ticket => { %>
+                <tr class="hover:bg-gray-50 transition-colors duration-300">
+                    <td class="py-3 px-4 text-gray-800 font-medium"><%= ticket.ticketID %></td>
+                    <td class="py-3 px-4 text-green-500"><%= ticket.mobileNo %></td>
+                    <td class="py-3 px-4"><%= ticket.issue_description %></td>
+                    <td class="py-3 px-4 text-yellow-500"><%= ticket.priority_level %></td>
+                    <td class="py-3 px-4 text-green-600 font-semibold"><%= ticket.status %></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

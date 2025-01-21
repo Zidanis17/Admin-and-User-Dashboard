@@ -1,0 +1,28 @@
+<div id="sidebar"
+    class="group/sidebar fixed bg-indigo-200 rounded-xl my-3 py-4 h-full w-[100px] hover:w-[300px] hover:bg-indigo-600 transition-all duration-700 z-40">
+    <!--    <img src="/logo_invis.png" class="w-24 h-auto mx-auto mb-10 rounded-lg px-4">-->
+    <ul
+        class="max-h-[calc(100vh-200px)] overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-blue-500 custom-scroll-thumb">
+        <% sidebarItems.forEach(item=> { %>
+            <li>
+                <button
+                    class="relative p-6 w-full h-full text-slate-800 flex items-center group <%= item.text === sidebarItems[selectedItem].text ? 'bg-indigo-500 rounded-md' : '' %>"
+                    onclick="window.location.href='/admin/dashboard/<%= item.endpoint %>';">
+                    <% if (item.text !== sidebarItems[selectedItem].text) { %>
+                        <span
+                            class="absolute inset-0 w-full h-full bg-indigo-500 transition-all duration-300 transform scale-0 group-hover:scale-100 rounded-md"></span>
+                        <% } %>
+
+                            <i
+                                class="pi <%= item.icon %> text-4xl group-hover/sidebar:text-zinc-300 transition-all duration-700 relative z-10"></i>
+                            <span
+                                class="text-zinc-300 transition-all duration-700 transform opacity-0 w-0 max-w-0 group-hover/sidebar:opacity-100 group-hover/sidebar:w-auto group-hover/sidebar:max-w-full group-hover/sidebar:translate-x-3 whitespace-nowrap inline-block relative z-10">
+                                <%= item.text %>
+                            </span>
+                </button>
+            </li>
+            <% }) %>
+    </ul>
+</div>
+
+<!-- class="divide-y divide-gray-500 divide-opacity-50 group-hover/sidebar:divide-zinc-400 transition-all duration-700"> -->

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+  <div class="container mx-auto p-6 ml-[113px]">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Wallets</h1>
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+      <table class="min-w-full text-left table-auto">
+        <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+          <tr>
+            <th class="px-4 py-4">#</th>
+            <th class="px-4 py-4 ">Wallet ID</th>
+            <th class="px-4 py-4 ">First Name</th>
+            <th class="px-4 py-4 ">Last Name</th>
+            <th class="px-4 py-4">Current Balance</th>
+            <th class="px-4 py-4">Currency</th>
+            <th class="px-4 py-4">Last Modified Date</th>
+            <th class="px-4 py-4">National ID</th>
+            <th class="px-4 py-4">Mobile No</th>
+            <th class="px-4 py-4">Number of Cashbacks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% wallets.forEach((wallet, index)=> { %>
+          <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition-all duration-400 ease-in-out ">
+            <td class="border-t px-4 py-4 text-sm">
+              <%= index + 1 %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <%= wallet.walletId %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <%= wallet.first_name %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <%= wallet.last_name %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              $<%= wallet.current_balance.toFixed(2) %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm font-semibold">
+              <%= wallet.currency.toUpperCase() %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <%= new Date(wallet.last_modified_date).toLocaleDateString('en-GB') %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <%= wallet.nationalID %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm">
+              <%= wallet.mobileNo %>
+            </td>
+            <td class="border-t px-4 py-4 text-sm text-center">
+              <%= wallet.numOfCashbacks %>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

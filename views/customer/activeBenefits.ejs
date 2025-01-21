@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+  <%- include('partials/header') %>
+  <%- include('partials/sidebar') %>
+  <!--<div id="base" class="m-[100px] transition-all duration-700">-->
+  <!--</div>-->
+  <div class="container p-6 m-[100px] transition-all duration-700 mr-3 ">
+    <div class="flex flex-wrap justify-center ">
+      <% activeBenefits.forEach((benefit, index) => { %>
+      <div class="bg-white border border-gray-300 rounded-lg shadow-lg m-4 w-80 p-6 cursor-pointer hover:scale-105 transition duration-500 ease-in-out ">
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-gray-800"> Benefit # <%= index+1 %>
+          </h3>
+          <p class="text-gray-900">
+            <%= benefit.description %>
+          </p>
+        </div>
+        <p class="text-gray-700">
+          <span class="font-semibold">Benefit ID:</span> <%= benefit.benefitID %>
+        </p>
+        <p class="text-gray-700">
+          <span class="font-semibold">Validity date:</span> <%= new Date(benefit.validity_date).toLocaleDateString('en-GB') %>
+        </p>
+        <p class="text-gray-700">
+          <span class="font-semibold">Status:</span> <%= benefit.status %>
+        </p>
+        <p class="text-gray-700">
+          <span class="font-semibold">Mobile Number:</span> <%= benefit.mobileNo %>
+        </p>
+
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+
+</html>

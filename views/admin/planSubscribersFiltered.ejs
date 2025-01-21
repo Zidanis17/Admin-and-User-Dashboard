@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Subscribers</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.1/primeicons.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="container mx-auto p-6 ml-[113px]">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Plan Subscribers</h1>
+
+    <div class="mb-4">
+        <button onclick="window.history.back()" class="flex items-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <i class="pi pi-arrow-left mr-2"></i>
+            Back
+        </button>
+    </div>
+
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <table class="min-w-full text-left table-auto">
+            <thead class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white">
+            <tr>
+                <th class="px-4 py-4">#</th>
+                <th class="px-4 py-4">Mobile Number</th>
+                <th class="px-4 py-4">Plan ID</th>
+                <th class="px-4 py-4">Plan Name</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <% if (subscribers.length > 0) { %>
+                <% subscribers.forEach((subscriber, index) => { %>
+                    <tr class="<%= index % 2 === 0 ? 'bg-gray-50' : 'bg-white' %> hover:bg-gray-100 transition-all duration-400 ease-in-out">
+                        <td class="border-t px-4 py-4 text-sm"><%= index + 1 %></td>
+                        <td class="border-t px-4 py-4 text-sm text-blue-600 font-semibold"><%= subscriber.mobileNo %></td>
+                        <td class="border-t px-4 py-4 text-sm text-gray-800"><%= subscriber.planID %></td>
+                        <td class="border-t px-4 py-4 text-sm text-gray-800"><%= subscriber.name %></td>
+
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan=" 4 " class="border-t px-4 py-4 text-center text-gray-500">
+                        No subscribers found for the selected filters.
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

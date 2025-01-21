@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Header with Login Button</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="bg-indigo-50 rounded-xl">
+        <nav class="mx-auto flex  items-center  p-6 lg:px-8 w-full" aria-label="Global">
+            <div class="flex lg:flex-1">
+                <a href="/admin/dashboard/customer-accounts" class="-m-1.5 p-1.5">
+                    <span class="sr-only">Your Company</span>
+                    <img class="h-14 w-auto" src="/logo_invis.png" alt="">
+                </a>
+            </div>
+
+            <!--        <div class="flex lg:hidden">-->
+            <!--            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">-->
+            <!--                <span class="sr-only">Open main menu</span>-->
+            <!--                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">-->
+            <!--                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />-->
+            <!--                </svg>-->
+            <!--            </button>-->
+            <!--        </div>-->
+            <!--        <div class="hidden lg:flex lg:gap-x-12">-->
+            <!--            <a href="/admin/dashboard/wallet-info" class="text-sm font-semibold text-gray-900">Product</a>-->
+            <!--            <a href="#" class="text-sm font-semibold text-gray-900">Features</a>-->
+            <!--            <a href="#" class="text-sm font-semibold text-gray-900">Marketplace</a>-->
+            <!--            <a href="#" class="text-sm font-semibold text-gray-900">Company</a>-->
+            <!--        </div>-->
+            <div class="hidden lg:flex lg:gap-x-12">
+                <h1 class="text-3xl font-bold text-indigo-900">Admin Dashboard</h1>
+            </div>
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                <a href="/logout" class="text-md font-semibold text-gray-900 hover:scale-110 duration-500">Log out <span
+                        aria-hidden="true">&rarr;</span></a>
+            </div>
+        </nav>
+    </header>
+</body>
+
+</html>
